@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Webchat</title>
+</head>
+
+<body>
+
+
+    <div style="background-image: url(/static/bg.jpg);height: 100vh;width:100%;" class=" row"  ng-app="chat" ng-controller="handle">
+
+        <div class="w-50 col-6 " style="height: 100vh;">
+            <h1 class="text-center mt-5 mb-5" style="display: block; margin: auto; color: #fff;">Connect</h1>
+
+            <div class="m-auto">
+                <div class="input-group mb-3 m-auto" style="width: 49%;">
+                    <input type="text" class="form-control" ng-model="name" placeholder="Enter Your Name...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" ng-click="add(name)"
+                            style="border: 0.5px solid #fff; background-color: #FFC9C7; color:#fff;">Connect</button>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 45%; margin: auto;" class="mt-4">
+                <div  class="mt-1" ng-repeat="selectedUser in users">
+                    {% verbatim %}
+                <div class="row" style="background-color: #fff;border-radius: 6px;color: #888;border: 1px solid #06CEB7;">
+                        <div style="border-radius: 25px;background-color: #fdf5b6;width: 40px;height: 40px;margin: auto;margin-left: 9px;">   
+                        </div>
+                        <p  ng-click=selectUser(selectedUser) class="text-left col active" style="cursor: pointer;padding: 0.9rem;margin-bottom:0;color:#888;">{{selectedUser.name}}
+                        </p>
+                    </div>
+                    {% endverbatim %}
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-6" style="height: 100vh;" style="padding-right:0 !important;" >
+            <h1 class="text-center mt-5 mb-5 " style="color: #fff; margin-bottom: 0;"> Messages</h1>
+            <div  style="width: 65%; height: 70vh;border: 2.5px solid #fff; margin: auto;border-radius: 6px;padding:2rem;overflow: scroll;">
+                <div>
+                    <p class="text-center w-75" style="background-color: #72E6D6;position: absolute;top: 135px;width: 50% !important;right: 176px;border: 0.5px solid #fff;color: #fff;border-radius: 6px;" ng-if="sendingTo != '' "><span style="padding: 1rem;" ng-bind="sendingTo"></span></p>
+                </div>
+                <div ng-if="selectedUser.name != null" ng-repeat="msg in msgs">
+                    {% verbatim %}
+                    <div class="mb-4 " ng-if="msg.recivedItems[0].sentItem.userName === selectedUser.name" >
+                        <p class="text-left"  style="margin-bottom: 0.5rem;" ><span style="padding: 0.375rem .75rem;border-radius: 6px;background: #E3CDCE;opacity: .8;border: 0.5px solid #fff;">{{msg.recivedItems[0].sentItem.message}}</span> </p>
+                    </div>
+                    <div class="mb-4" ng-if=" msg.sentItem.sentTo === selectedUser.name">
+                        <p  class="text-right" style="margin-bottom: 0.5rem;" ><span style="padding: 0.375rem .75rem;border-radius: 6px;background: #bbdcdf;border: 0.5px solid #fff">{{msg.sentItem.message}}</span> </p>
+                    </div>
+                    {% endverbatim %}
+                </div>  
+            </div>
+            <div class="input-group mb-3  m-auto" style="width: 65%;">
+                <input class="form-control" type="text" ng-model="text" placeholder="Start Typing...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" ng-click="sendText(text)"
+                        style="border: 0.5px solid #fff;background-color: #72E6D6; color:#fff;">Send</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+    <script src="https://chatbot.epsilonai.com/static/js/autobahn.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var connection = new autobahn.Connection({
+            transports: [
+                {
+                    'type': 'websocket',
+                    'url': 'wss://ws.epsilonai.com/ws',
+                },
+                {
+                    'type': 'longpoll',
+                    'url': 'https://ws.epsilonai.com/lp',
+                }
+            ],
+            // url: wampServer,
+            realm: 'default'
+        });
+
+
+        var app = angular.module("chat", [])
+        app.controller("handle", function ($scope) {
+            $scope.users = [
+                {'id':'101','name':'sandeep','phone':'9506370145'},
+                { 'id': '202','name': 'pradeep', 'phone': '1234567890'},
+                { 'id': '303','name': 'deepika', 'phone': '0987654321'},
+            ];
+            $scope.msgs = [];
+            $scope.sendingTo = ""
+
+
+            function handlemsg(args) {
+                var recived = {
+                    'method':'recived',
+                    'recivedItems':args,
+                }
+                $scope.recivedmsg = recived  
+                $scope.msgs.push(recived);
+                $scope.$apply();
+            }
+            $scope.add = function (name) {
+                $scope.admin = name
+                $scope.name = "";
+                connection.open()
+                connection.onopen = function (session) {
+                    session.subscribe(name, handlemsg).then(
+                        function (sub) {
+                            console.log("subscribe to topic 'supportChatResponse'" + name);
+                        },
+                        function (err) {
+                            console.log("failed to subscribe: " + err);
+                        }
+                    );
+                }
+
+            }
+            $scope.selectUser = function(selectedUser){
+                var admin = $scope.admin
+                if (connection.session !=null){ 
+                    $scope.sendingTo = selectedUser.name
+                    $scope.selectedUser = selectedUser
+                    $scope.sendText = function(text){
+                        var sent = { 
+                            'method':'sent', 
+                            'sentItem': { 
+                                "userId": selectedUser.id, 
+                                "sentTo": selectedUser.name, 
+                                "userName": admin, 
+                                'userNumber': selectedUser.phone, 
+                                'type': 'text', 
+                                'message': text, 
+                                'files': '', 
+                                'images': '' 
+                                } 
+                            }
+                        $scope.msgs.push(sent)
+                        connection.session.publish(selectedUser.name, [sent], {}, {
+                            acknowledge: true
+                        }).then(function (publication) {
+                                console.log("Sent to" + " " + " " + "message=" + sent);
+                            }); 
+                        $scope.text=""
+                    } 
+                }
+                else{
+                    console.log("senders name empty")
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
