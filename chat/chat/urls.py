@@ -19,6 +19,7 @@ from django.urls import path,include
 urlpatterns = [
     path('', include("webchat.urls")),
     path('admin/', admin.site.urls),
+    path('api/',include('webchat.api_urls'))
 ]
 
 
