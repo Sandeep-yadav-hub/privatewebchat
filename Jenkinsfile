@@ -8,7 +8,7 @@ pipeline {
                 sh '''
                     /usr/local/bin/pip3 install -r require.txt
                     cd chat
-                    /usr/local/bin/python3 manage.py runserver
+                    /usr/local/bin/python manage.py runserver
                 '''
 
             }
