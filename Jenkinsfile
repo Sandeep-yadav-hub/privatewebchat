@@ -7,7 +7,7 @@ pipeline {
             {
                 sh '''
                     /usr/local/bin/pip install virtualenv
-                    virtualenv env
+                    /usr/local/bin/virtualenv env
                     source env/bin/activate
                     /usr/local/bin/pip install -r require.txt
                     cd chat
