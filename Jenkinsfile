@@ -6,9 +6,15 @@ pipeline {
             steps {
                 sh 'cd privatewebchat'
             }
-            {sh 'pip install -r require.txt'}
-            {sh 'cd chat'}
-            {sh 'python manage.py runserver'}
+            {
+                sh 'pip install -r require.txt'
+            }
+            {
+                sh 'cd chat'
+            }
+            {
+                sh 'python manage.py runserver'
+            }
         }
         
     }
