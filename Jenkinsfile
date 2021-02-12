@@ -5,14 +5,14 @@ pipeline {
         stage('Build') {
             steps 
             {
-                sh 'pip install -r require.txt'
+                sh '''
+                    pip install -r require.txt
+                    cd chat
+                    python manage.py runserver
+                '''
+
             }
-            {
-                sh 'cd chat'
-            }
-            {
-                sh 'python manage.py runserver'
-            }
+           
         }
         
     }
