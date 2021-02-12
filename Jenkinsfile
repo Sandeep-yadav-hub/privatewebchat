@@ -3,9 +3,7 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps {
-                sh 'cd privatewebchat'
-            }
+            steps 
             {
                 sh 'pip install -r require.txt'
             }
