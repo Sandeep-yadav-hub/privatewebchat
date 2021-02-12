@@ -11,7 +11,7 @@ pipeline {
                     source env/bin/activate
                     /usr/local/bin/pip3 install -r require.txt
                     cd chat
-                    python2.7 manage.py runserver
+                    python manage.py runserver
                 '''
 
             }
