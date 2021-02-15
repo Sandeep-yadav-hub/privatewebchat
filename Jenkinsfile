@@ -6,13 +6,13 @@ pipeline {
             steps 
             {
                 sh '''
-                    /usr/local/bin/python3 --version
-                    /usr/local/bin/pip3 install virtualenv
-                    /usr/local/bin/virtualenv env 
-                    source env/bin/activate
-                    /usr/local/bin/pip3 install -r require.txt
-                    cd chat
-                    /usr/local/bin/python3 manage.py runserver
+                    sudo /usr/local/bin/python3 --version
+                    sudo /usr/local/bin/pip3 install virtualenv
+                    sudo /usr/local/bin/virtualenv env 
+                    sudo source env/bin/activate
+                    sudo /usr/local/bin/pip3 install -r require.txt
+                    sudo cd chat
+                    sudo /usr/local/bin/python3 manage.py runserver
                 '''
 
             }
