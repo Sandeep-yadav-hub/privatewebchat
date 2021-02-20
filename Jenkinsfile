@@ -6,7 +6,7 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo -S python --version
+                    sudo -n python --version
                 '''
 
             }
@@ -16,9 +16,9 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo -S pip install virtualenv
-                    sudo -S virtualenv env 
-                    sudo -S ./env/bin/activate
+                    sudo -n pip install virtualenv
+                    sudo -n virtualenv env 
+                    sudo -n ./env/bin/activate
                     r
                 '''
 
@@ -29,8 +29,8 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo -S git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
-                    sudo -S pip install -r require.txt
+                    sudo -n git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
+                    sudo -n pip install -r require.txt
                     cd chat
                 '''
 
@@ -41,7 +41,7 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo -S python3 manage.py runserver
+                    sudo -n python manage.py runserver
                 '''
 
             }
