@@ -21,10 +21,8 @@ pipeline {
                     sudo rm -rf require.txt
                     sudo rm -rf privatewebchat
                     sudo -n git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
-                    sudo -n pip3 install -r require.txt
-                    ls
                     cd privatewebchat
-                    ls 
+                    sudo -n pip3 install -r require.txt
                     cd chat
                     ls
                 '''
