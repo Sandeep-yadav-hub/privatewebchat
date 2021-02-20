@@ -31,7 +31,7 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo -n python3 manage.py runserver
+                    sudo python3 manage.py runserver 8000
                 '''
 
             }
