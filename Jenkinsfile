@@ -18,7 +18,9 @@ pipeline {
                 sh '''
                     sudo -n git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
                     sudo -n pip3 install -r require.txt
+                    ls
                     cd chat
+                    ls 
                 '''
 
             }
