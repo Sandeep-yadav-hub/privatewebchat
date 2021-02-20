@@ -24,7 +24,7 @@ pipeline {
                     cd privatewebchat
                     sudo -n pip3 install -r require.txt
                     cd chat 
-                    BUILD_ID=dontKillMe python3 manage.py runserver 0.0.0.0:8000 &
+                    BUILD_ID=dontKillMe nohup python3 manage.py runserver 0.0.0.0:8000 &
 
                 '''
 
