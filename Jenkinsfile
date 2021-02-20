@@ -34,7 +34,7 @@ pipeline {
             steps 
             {
                 sh '''
-                    python3 manage.py runserver 8000
+                    python manage.py runserver 8000
                 '''
 
             }
