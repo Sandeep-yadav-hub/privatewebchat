@@ -22,25 +22,18 @@ pipeline {
                     sudo rm -rf privatewebchat
                     sudo -n git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
                     cd privatewebchat
+                    virtualenv env
+                    source env/bin/activate
                     sudo -n pip3 install -r require.txt
-                    
+                    cd chat 
+                    python3 ./manage.py runserver
+
                 '''
 
             }
            
         }
-        stage('run server') {
-            steps 
-            {
-                sh '''
-                    cd privatewebchat
-                    cd chat
-                    source env/bin/activate && python ./manage.py runserver
-                '''
-
-            }
-           
-        }
+        
         
     }
 }
