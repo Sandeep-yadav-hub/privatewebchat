@@ -35,7 +35,7 @@ pipeline {
                 sh '''
                     cd privatewebchat
                     cd chat
-                    python3 manage.py runserver 8000
+                    python3 manage.py runserver
                 '''
 
             }
