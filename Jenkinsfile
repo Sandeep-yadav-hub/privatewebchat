@@ -35,7 +35,7 @@ pipeline {
                 sh '''
                     cd privatewebchat
                     cd chat
-                    python3 manage.py runserver
+                    source env/bin/activate && python ./manage.py runserver
                 '''
 
             }
