@@ -6,7 +6,7 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo -n python3 --version
+                    python3 --version
                 '''
 
             }
@@ -33,7 +33,7 @@ pipeline {
             steps 
             {
                 sh '''
-                    sudo python3 manage.py runserver 8000
+                    python3 manage.py runserver 8000
                 '''
 
             }
