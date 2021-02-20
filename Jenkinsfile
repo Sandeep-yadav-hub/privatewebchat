@@ -2,17 +2,46 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('check python') {
             steps 
             {
                 sh '''
-                    echo titan@1234 | sudo -S /usr/local/bin/python3 --version
-                    echo titan@1234 | sudo -S /usr/local/bin/pip3 install virtualenv
-                    echo titan@1234 | sudo -S /usr/local/bin/virtualenv env 
-                    echo titan@1234 | sudo -S ./env/bin/activate
-                    echo titan@1234 | sudo -S /usr/local/bin/pip3 install -r require.txt
-                    echo titan@1234 | sudo -S cd chat
-                    echo titan@1234 | sudo -S /usr/local/bin/python3 manage.py runserver
+                    sudo python --version
+                '''
+
+            }
+           
+        }
+        stage('install virtualenv and activate') {
+            steps 
+            {
+                sh '''
+                    sudo pip install virtualenv
+                    sudo virtualenv env 
+                    sudo ./env/bin/activate
+                    r
+                '''
+
+            }
+           
+        }
+        stage('git clone and install requirement') {
+            steps 
+            {
+                sh '''
+                    sudo git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
+                    sudo pip install -r require.txt
+                    sudo cd chat
+                '''
+
+            }
+           
+        }
+        stage('run server') {
+            steps 
+            {
+                sh '''
+                    sudo python3 manage.py runserver
                 '''
 
             }
