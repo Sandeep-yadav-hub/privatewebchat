@@ -24,7 +24,7 @@ pipeline {
                     cd privatewebchat
                     sudo -n pip3 install -r require.txt
                     cd chat 
-                    JENKINS_NODE_COOKIE=dontKillMe nohup /usr/bin/python3.8 manage.py runserver 0.0.0.0:8000 &
+                    JENKINS_NODE_COOKIE=dontKillMe nohup python3 manage.py runserver 0.0.0.0:8000 &
 
                 '''
 
