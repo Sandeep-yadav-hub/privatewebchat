@@ -23,8 +23,7 @@ pipeline {
                     sudo -n git clone https://github.com/Sandeep-yadav-hub/privatewebchat.git
                     cd privatewebchat
                     sudo -n pip3 install -r require.txt
-                    cd chat
-                    ls
+                    
                 '''
 
             }
@@ -34,7 +33,8 @@ pipeline {
             steps 
             {
                 sh '''
-                    ls
+                    cd privatewebchat
+                    cd chat
                     python3 manage.py runserver 8000
                 '''
 
