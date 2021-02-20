@@ -12,19 +12,6 @@ pipeline {
             }
            
         }
-        stage('install virtualenv and activate') {
-            steps 
-            {
-                sh '''
-                    sudo -n pip3 install virtualenv
-                    sudo -n virtualenv env 
-                    sudo -n ./env/bin/activate
-                    r
-                '''
-
-            }
-           
-        }
         stage('git clone and install requirement') {
             steps 
             {
